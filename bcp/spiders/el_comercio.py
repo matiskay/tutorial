@@ -1,6 +1,6 @@
 from scrapy import Spider
 from w3lib.html import remove_tags, remove_tags_with_content
-from bcp.items import BcpItem
+from bcp.items import NewsItemLoader
 
 
 
@@ -13,19 +13,26 @@ class ElComercio(Spider):
             ]
     
     def parse(self, response):
-        item = BcpItem()
+        nl = NewsItemLoader(response=response)
 
-        title = response.xpath('//h1/text()').extract_first(default='')
+        nl.add_xpath('title', '//h1/text()')
+        nl.add_xpath('content', '//div[has-class("news-text-content")]/p')
+        nl.add_xpath('image', '//div[has-class("news-text-content")]/p')
+        nl.add_value('url', response.url)
 
-        content = response.xpath('//div[has-class("news-text-content")]/p').extract()
-        content = '\n'.join(content)
-        content = remove_tags(content)
+        yield nl.load_item()
 
-        image = response.xpath('//div[has-class("image")]//img/@src').extract_first()
-
-        item['title'] = title
-        item['content'] = content
-        item['image'] = image
-        item['url'] = response.url
-
-        yield item
+        # title = response.xpath('//h1/text()').extract_first(default='')
+        #
+        # content = response.xpath('//div[has-class("news-text-content")]/p').extract()
+        # content = '\n'.join(content)
+        # content = remove_tags(content)
+        #
+        # image = response.xpath('//div[has-class("image")]//img/@src').extract_first()
+        #
+        # item['title'] = title
+        # item['content'] = content
+        # item['image'] = image
+        # item['url'] = response.url
+        #
+        # yield item
