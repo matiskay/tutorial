@@ -7,6 +7,9 @@
 
 import scrapy
 from scrapy.loader import ItemLoader
+from scrapy.loader.processors import TakeFirst, MapCompose, Join
+
+from w3lib.html import remove_tags
 
 
 class NewsItem(scrapy.Item):
@@ -19,3 +22,8 @@ class NewsItem(scrapy.Item):
 
 class NewsItemLoader(ItemLoader):
     default_item_class = NewsItem
+
+    default_output_processor = TakeFirst()
+    default_input_processor = MapCompose(remove_tags, str.strip)
+
+    content_out = Join('\n')

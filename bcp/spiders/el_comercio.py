@@ -17,7 +17,7 @@ class ElComercio(Spider):
 
         nl.add_xpath('title', '//h1/text()')
         nl.add_xpath('content', '//div[has-class("news-text-content")]/p')
-        nl.add_xpath('image', '//div[has-class("news-text-content")]/p')
+        nl.add_xpath('image', '//div[has-class("image")]//img/@src')
         nl.add_value('url', response.url)
 
         yield nl.load_item()
