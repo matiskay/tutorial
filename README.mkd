@@ -1,0 +1,9 @@
+# Problems:
+
+SSL Errors
+
+Windows
+
+```
+pip install --upgrade pip --trusted-host pypi.org --trusted-host files.pythonhosted.org
+```
