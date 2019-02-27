@@ -13,7 +13,7 @@ class LaRepublicaSpider(Spider):
 
         nl.add_xpath('title', '//h1')
         nl.add_xpath('content', '//div[has-class("content-post")]')
-        nl.add_xpath('image', '//img[has-class("Img-conver__img")]/@data-original')
+        nl.add_xpath('image', '//span[has-class("atm_Img-cover")]/picture/source[@media="(min-width: 650px)"]/@srcset')
         nl.add_value('url', response.url)
 
         yield nl.load_item()
